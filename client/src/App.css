@@ -1,0 +1,13 @@
+*, html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.header {
+    box-shadow: 2px 4px 13px #ddd;
+}
