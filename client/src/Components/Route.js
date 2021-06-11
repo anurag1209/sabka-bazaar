@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router';
+import styled from 'styled-components';
 
-import Home from "../Container/Home";
-import Products from "../Container/Products";
+import Home from "../container/Home";
+import Products from "../container/Products";
 import Login from "./Login";
 import Register from "./Register";
 import FilteredProducts from "./FilteredProducts";
-import styled from 'styled-components';
 
 const ContentContainerStyles = styled.div`
     display: flex;

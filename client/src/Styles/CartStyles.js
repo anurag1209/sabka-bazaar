@@ -17,6 +17,7 @@ const CartItemsStyle = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
     height: 400px;
+    background-color: #ccc;
 
   @media (max-width: 767px) {
     min-height: 74vh;
@@ -30,6 +31,7 @@ const CartItemStyle = styled.div`
   padding: 5px 15px;
   box-shadow: 0px 0px 2px 0px #ccc;
   background-color: #fff;
+  align-items: center;
 `;
 
 const CartDescriptionStyle = styled.div`
@@ -41,15 +43,25 @@ const CartDescriptionStyle = styled.div`
     p {
       display: flex;
       justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 500;
     }
     button {
-      width: 25px;
+      width: 20px;
       height: 20px;
-      border: 1px solid;
-      border-radius: 25%;
+      border: none;
+      border-radius: 50%;
       cursor: pointer;
-      background-color: #c17070;
+      background-color: #be2352;
+      margin: 0 10px;
+      color: #fff;
+
+      &:nth-child(odd) {
+        margin-left: 0;
+      }
     }
+
+
 `;
 
 const CartHeader = styled.div`
@@ -71,6 +83,8 @@ const CartFooter = styled.div`
   background-color: #fff;
   justify-content: center;
   align-items: center;
+  box-shadow: 3px 8px 14px 4px #9b6c6c};
+  padding-top: 10px;
 `;
 
 const CartFooterButtonText = styled.div`
@@ -85,4 +99,21 @@ const CartFooterButtonText = styled.div`
   justify-content: space-around;
 `;
 
-export { CartWrapperStyle, CartItemsStyle, CartItemStyle, CartDescriptionStyle, CartHeader, CartFooter, CartFooterButtonText };
+const LowestPriceWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fff;
+  width: 90%;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 5px;
+
+  p {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+`;
+
+export { CartWrapperStyle, CartItemsStyle, CartItemStyle, CartDescriptionStyle, CartHeader, CartFooter, CartFooterButtonText, LowestPriceWrapper };

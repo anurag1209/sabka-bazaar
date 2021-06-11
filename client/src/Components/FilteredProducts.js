@@ -1,5 +1,5 @@
 import React from 'react';
-import Products from '../Container/Products';
+import Products from '../container/Products';
 
 function FilteredProducts(props) {
     return (

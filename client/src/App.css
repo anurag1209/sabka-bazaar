@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    letter-spacing: -0.6px;
+    word-spacing: 0.8px;
 }
 
 a {
@@ -10,4 +12,8 @@ a {
 
 .header {
     box-shadow: 2px 4px 13px #ddd;
+}
+
+.carts {
+    background-color: #ccc;
 }

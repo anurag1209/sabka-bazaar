@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Nav from './Nav';
 import Cart from './Cart';
 import { cartItemQuantity } from "../libs/util";
-import { HeaderStyle, AuthCartStylesContainer, NavigationStylesContainer, AuthStyles, CartStyles } from "../Styles/Header";
+import { HeaderStyle, AuthCartStylesContainer, NavigationStylesContainer, AuthStyles, CartStyles } from "../styles/Header";
 
 function Header(props) {
     return (

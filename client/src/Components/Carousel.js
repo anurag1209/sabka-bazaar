@@ -12,7 +12,7 @@ const BannerImageStyle = styled.img `
 
 function Banner(props) {
     return (
-        <Carousel autoPlay>
+        <Carousel autoPlay showThumbs={false}>
             { props.banners.map((banner, index) => (
                 <BannerImageStyle key={index} alt="" src={banner.bannerImageUrl}></BannerImageStyle>
             ))}

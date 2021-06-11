@@ -2,28 +2,19 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import IconButton from '@material-ui/core/IconButton';
-import { calculateTotal, itemExistIncart } from "../libs/util";
 import { connect } from "react-redux";
-import { CartWrapperStyle, CartItemsStyle, CartItemStyle, CartDescriptionStyle, CartHeader, CartFooter, CartFooterButtonText } from "../Styles/CartStyles";
 
-function getModalStyle() {
-  return {
-    top: `50%`,
-    left: `50%`,
-    transform: `translate(-50%, -50%)`,
-  };
-}
+import { calculateTotal, itemExistIncart } from "../libs/util";
+import { CartWrapperStyle, CartItemsStyle, CartItemStyle, CartDescriptionStyle, CartHeader, CartFooter, CartFooterButtonText, LowestPriceWrapper } from "../styles/CartStyles";
 
+// Material ui stylings
+const getModalStyle = ()  => ({ top: `50%`, left: `50%`,transform: `translate(-50%, -50%)` }) ;
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    minHeight: 500,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5]
-  },
+  paper: { position: 'absolute', width: 400, minHeight: 500, backgroundColor: theme.palette.background.paper, border: '0px solid #000', boxShadow: theme.shadows[5] },
+  closeButton: { fontSize: "0.7rem" }
 }));
+const emptyCartStyle = () => ({ alignItems: "center", justifyContent: "center" });
+
 
 function CartModal(props) {
   const classes = useStyles();
@@ -54,14 +45,11 @@ function CartModal(props) {
     props.addToCart(newPayload);
   }
 
-  const emptyCartStyle = {
-    alignItems: "center",
-    justifyContent: "center",
-  }
-
+  // Empty cart conditions
   let cartItems = <><h3>No items in your cart</h3><p>Your favourite items are just a click away</p></>;
-  let cartFooter = <CartFooterButtonText onClick={handleClose}>Start Shopping</CartFooterButtonText>;
+  let cartFooter = <CartFooterButtonText shadowEnable="red" onClick={handleClose}>Start Shopping</CartFooterButtonText>;
   
+  // Populating cart item data
   if(props.cartData && props.cartData.length) {
     cartItems = props.cartData.map(item => {
         return (
@@ -76,7 +64,14 @@ function CartModal(props) {
             </CartItemStyle>)
     });
 
-    cartFooter = <><p>Promo code can be applied on payment page</p><CartFooterButtonText><span>Proceed to Checkout</span><span>Rs.{calculateTotal(props.cartData)}</span></CartFooterButtonText></>
+    let LowestPrice = (<LowestPriceWrapper>
+        <img src="/static/images/lowest-price.png" alt="" />
+        <p>You wont find it cheaper anywhere</p>
+    </LowestPriceWrapper>);
+
+    cartItems.push(LowestPrice);
+
+    cartFooter = <><p>Promo code can be applied on payment page</p><CartFooterButtonText shadowEnable="red"><span>Proceed to Checkout</span><span>Rs.{calculateTotal(props.cartData)}</span></CartFooterButtonText></>
   }
 
   const body = (
@@ -86,7 +81,7 @@ function CartModal(props) {
               <span>My Cart (<span>{props.children}</span>)</span>
               <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>X</IconButton>
             </CartHeader>
-            <CartItemsStyle style={(props.cartData && props.cartData.length) ? {} : emptyCartStyle}>{cartItems}</CartItemsStyle>
+            <CartItemsStyle style={(props.cartData && props.cartData.length) ? {} : emptyCartStyle()}>{cartItems}</CartItemsStyle>
             <CartFooter>{cartFooter}</CartFooter>
         </div>
     </CartWrapperStyle>
@@ -100,8 +95,8 @@ function CartModal(props) {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
+        aria-labelledby="cart"
+        aria-describedby="shopping cart"
       >
         {body}
       </Modal>

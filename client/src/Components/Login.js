@@ -2,15 +2,19 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import useForm from '../libs/useForm';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { RegisterStyle, RegisterTextStyle, RegisterFormStyle, ErrorMessage } from "../styles/AuthStyles";
+
+import { useForm, Controller } from "react-hook-form";
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
       width: '35ch',
+      display: "flex",
+      flexDirection: "column"
     },
   },
   submit: {
@@ -19,103 +23,40 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
-const RegisterStyle = styled.div`
-  display: flex;
-  width: 700px;
-  margin: 0 auto;
-  justify-content: space-between;
-
-  @media (max-width: 767px) {
-    flex-direction: column;
-    align-items: center;
-  }
-
-`;
-
-const RegisterTextStyle = styled.div`
-  margin-top: 2rem;
-  flex: 1 1;
-
-  p {
-    font-size: 0.8rem;
-    margin-top: 1rem;
-  }
-
-  @media (max-width: 767px) {
-    margin-top: 0;
-
-    h2 {
-      text-align: center;
-    }
-  }
-`;
-
-const RegisterFormStyle = styled.div`
-  flex: 1 1;
-
-  @media (max-width: 767px) {
-    margin: 0 auto;
-    max-width: 85%;
-  }
-`;
-
-
-function Register(props) {
+function NewLogin(props) {
+    const [UserError, setUserError] = useState(null);
     const classes = useStyles();
-    const { inputs, handleChange } = useForm({
-      email: "anurag@gmail.com",
-      password: "qwerty"
-    });
+    const { control, formState: { errors }, handleSubmit } = useForm();
 
-    const validateLogin = (user) => {
-      let users = JSON.parse(localStorage.getItem("users"));
-      let validated = false;
-
-      // validate inputs
-      if (!users) {
-        alert("Please register before login");
-        return false;
+    const validateLogin = userData => {
+        let users = JSON.parse(localStorage.getItem("users"));
+        let validated = false;
+  
+        // validate if any user exists
+        if (!users) {
+            setUserError("Please register before login");
+            return false;
+        }
+        
+        // validate login details
+        for(let i=0; i<users.data.length; i++) {
+          if (users.data[i]?.email === userData.email && users.data[i]?.password === userData.password) {
+            validated = true;
+            break;
+          }
+        }
+  
+        return validated;
       }
-      if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(inputs.email))) {
-        alert("Please validate email format");
-        return false;
-      }
-      
-      // validate login details
-      for(let i=0; i<users.data.length; i++) {
-        if (users.data[i]?.email === inputs.email && users.data[i]?.password === inputs.password) {
-          validated = true;
-          break;
+  
+      const onSubmit = inputs => {
+        if(validateLogin(inputs)) {
+          props.loginSuccess();
+          props.history.push("/");
+        } else {
+            setUserError("Invalid credentials");
         }
       }
-
-      return validated;
-      
-    }
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-
-      if (!inputs.email || !inputs.password) {
-        alert("All the fields should be non empty");
-        return false;
-      }
-
-      if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(inputs.email))) {
-        alert("Please validate email format");
-        return false;
-      }
-
-      if(validateLogin(inputs)) {
-        // alert("Authenticated");
-        props.loginSuccess();
-        props.history.push("/");
-      } else {
-        alert(`Invalid credentials. If new user, please register yourself`);
-      }
-    }
 
     return (
         <RegisterStyle>
@@ -124,17 +65,33 @@ function Register(props) {
                 <p>Get access to your Orders, Wishlist and Recommendations</p>
             </RegisterTextStyle>
             <RegisterFormStyle>
-                <form className={classes.root} method="post" onSubmit={handleSubmit} autoComplete="off">
-                    <TextField 
-                      label="Email"
-                      name="email"
-                      value={inputs.email}
-                      onChange={handleChange} />
-                    <TextField 
-                      label="Password"
-                      name="password"
-                      value={inputs.password}
-                      onChange={handleChange} />
+                <form className={classes.root} method="post" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                    <div className="field">
+                        <label>Email</label>
+                        <Controller
+                        name="email"
+                        id="email"
+                        rules={{ required: true, pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i }}
+                        control={control}
+                        defaultValue="anurag@gmail.com"
+                        render={({ field }) => <TextField {...field} />}
+                        />
+                        {errors.email?.type === 'required' && <ErrorMessage>Email is required</ErrorMessage>}
+                        {errors.email?.type === 'pattern' && <ErrorMessage>The entered email is invalid</ErrorMessage>}
+                    </div>
+                    <div className="field">
+                        <label>Password</label>
+                        <Controller
+                        name="password"
+                        id="password"
+                        rules={{ required: true }}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => <TextField type="password" {...field} />}
+                        />
+                        {errors.password?.type === 'required' && <ErrorMessage>Password is required</ErrorMessage>}
+                        <ErrorMessage>{UserError}</ErrorMessage>
+                    </div>
                     <Button 
                       className={classes.submit} 
                       variant="contained" 
@@ -152,4 +109,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(NewLogin);

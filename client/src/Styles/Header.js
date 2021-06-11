@@ -56,6 +56,7 @@ const NavigationStylesContainer = styled.div`
         padding: 0 20px;
         font-weight: 500;
         font-size: 0.9rem;
+        color: #767676;
     }
 
     @media (max-width: 767px) {
@@ -69,9 +70,10 @@ const AuthStyles = styled.div`
     margin-bottom: 10px;
 
     a {
-        text-decoration: none;
         font-size: 0.8rem;
         margin-right: 10px;
+        color: #000;
+        font-weight: 500;
     }
 
     @media (max-width: 767px) {

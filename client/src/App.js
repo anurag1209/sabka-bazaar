@@ -1,8 +1,8 @@
 import "./App.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import Page from './Components/Page';
-import RouteComp from "./Components/Route";
+import Page from './components/Page';
+import RouteComp from "./components/Route";
 import { useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";

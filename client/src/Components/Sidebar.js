@@ -1,57 +1,13 @@
 import React, { useRef } from 'react';
 import { Link } from "@material-ui/core";
 
-import styled from 'styled-components';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
+import { SidebarStyle, AccordionWrapper, SidebarItemStyle, ArrowStyle } from "../styles/SidebarStyles";
 
 
-const SidebarStyle = styled.div`
-    background-color: #ccc;
-    cursor: pointer;
-`;
-
-const AccordionWrapper = styled.div`
-    display: none;
-    @media (max-width: 767px) {
-        {
-            display: block;
-        }
-    }
-`;
-
-const SidebarItemStyle = styled.div`
-    line-height: 3;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ddd;
-
-    a {
-        font-weight: 400;
-        color: #322a2abf;
-    }
-
-    &.active {
-        background-color: #eee;
-    }
-    
-    &:hover {
-        background-color: #eee;
-    }
-
-    @media (max-width: 1100px) {
-        a {
-            font-size: 0.8rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        {
-            display: none;
-        }
-    }
-`;
 
 function Sidebar({ categories, productId, clicked }) {
 
@@ -104,6 +60,7 @@ function Sidebar({ categories, productId, clicked }) {
                             </AccordionDetails>
                         })}
                     </Accordion>
+                    <ArrowStyle>{`>`}</ArrowStyle>
                 </AccordionWrapper>
             </SidebarStyle>
     );

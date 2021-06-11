@@ -1,58 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router';
-import styled from 'styled-components';
-import { itemExistIncart } from "../libs/util"
-
-import Product from '../Components/Product';
-import Sidebar from '../Components/Sidebar';
 import { Link } from 'react-router-dom';
 
-const ProductsStyle = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-column-gap: 16px;
-
-    @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-        grid-column-gap: 0px;
-    }
-`;
-
-const ProductsListStyle = styled.div`
-    grid-gap: 20px 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-
-    @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 768px) and (max-width: 1100px) {
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 0;
-    }
-`;
-
-const ErrorContainer = styled.div`
-    position: absolute;
-    left: 50%;
-    text-align: center;
-    background-color: #bbb;
-    padding: 10px 20px;
-
-    span {
-        margin: 0 15px;
-        font-weight: bold;
-    }
-
-    @media (max-width: 767px) {
-        left: 10%;
-        top: 20%;
-    }
-`;
-
-
+import { itemExistIncart } from "../libs/util"
+import Product from '../components/Product';
+import Sidebar from '../components/Sidebar';
+import { ProductsStyle, ProductsListStyle, ErrorContainer } from "../styles/ProductStyles";
 
 class Products extends Component {
 
